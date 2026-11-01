@@ -65,22 +65,24 @@ public class Cuenta {
     // =====================================================
     public static class CuentaDAO {
         
-        private Connection conn;
-
-        // Constructor DAO
-        public CuentaDAO() {
-            conn = ConexionDB.conectar();
+        private Connection obtenerConexion() throws SQLException {
+            Connection conn = ConexionDB.conectar();
+            if (conn == null) {
+                throw new SQLException("No se pudo establecer la conexión con la base de datos.");
+            }
+            return conn;
         }
 
         // Método para Crear/Insertar Cuenta
         public boolean insertar(Cuenta cuenta) {
             String sql = "INSERT INTO cuenta (codigo_cliente, tipo_cuenta, saldo, estado) VALUES (?, ?, ?, ?)";
             
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection conn = obtenerConexion();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, cuenta.getCodigoCliente());
                 pstmt.setString(2, cuenta.getTipoCuenta());
                 pstmt.setBigDecimal(3, cuenta.getSaldo());
-                pstmt.setString(4, cuenta.getEstado());
+                pstmt.setString(4, cuenta.getEstado() == null ? "Activa" : cuenta.getEstado());
                 
                 return pstmt.executeUpdate() > 0;
             } catch (SQLException e) {
@@ -94,7 +96,8 @@ public class Cuenta {
             List<Cuenta> lista = new ArrayList<>();
             String sql = "SELECT * FROM cuenta WHERE codigo_cliente = ?";
             
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection conn = obtenerConexion();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, codigoCliente);
                 
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -120,7 +123,8 @@ public class Cuenta {
         public boolean actualizarSaldo(int numeroCuenta, BigDecimal nuevoSaldo) {
             String sql = "UPDATE cuenta SET saldo = ? WHERE numero_cuenta = ?";
             
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection conn = obtenerConexion();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setBigDecimal(1, nuevoSaldo);
                 pstmt.setInt(2, numeroCuenta);
                 
@@ -131,11 +135,29 @@ public class Cuenta {
             }
         }
 
+        public boolean actualizar(Cuenta cuenta) {
+            String sql = "UPDATE cuenta SET codigo_cliente = ?, tipo_cuenta = ?, saldo = ?, estado = ? WHERE numero_cuenta = ?";
+
+            try (Connection conn = obtenerConexion();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, cuenta.getCodigoCliente());
+                pstmt.setString(2, cuenta.getTipoCuenta());
+                pstmt.setBigDecimal(3, cuenta.getSaldo());
+                pstmt.setString(4, cuenta.getEstado());
+                pstmt.setInt(5, cuenta.getNumeroCuenta());
+                return pstmt.executeUpdate() > 0;
+            } catch (SQLException e) {
+                System.err.println("Error al actualizar cuenta: " + e.getMessage());
+                return false;
+            }
+        }
+
         // Método para Eliminar Cuenta
         public boolean eliminar(int numeroCuenta) {
             String sql = "DELETE FROM cuenta WHERE numero_cuenta = ?";
             
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection conn = obtenerConexion();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, numeroCuenta);
                 
                 return pstmt.executeUpdate() > 0;
