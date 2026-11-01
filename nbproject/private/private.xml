@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lenovo/Desktop/POO/BancoAcademico_UDB/BancoAcademico_UDB/src/Conexion/ConexionDB.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/POO/BancoAcademico_UDB/BancoAcademico_UDB/src/Modelo/Cliente.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/POO/BancoAcademico_UDB/BancoAcademico_UDB/src/Modelo/Cuenta.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/POO/BancoAcademico_UDB/BancoAcademico_UDB/src/bancoacademico_udb/BancoAcademico_UDB.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/bancoacademico_udb/BancoAcademico_UDB.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/Modelo/Cliente.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/Vista/FrmCuentas.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/Conexion/ConexionDB.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/Vista/FrmClientes.java</file>
+            <file>file:/C:/Users/luise/Downloads/FASE%20I%20Banco%20Academico/FASE%20I%20Banco%20Academico/BancoAcademico_UDB/src/Vista/FrmPrincipal.java</file>
         </group>
     </open-files>
 </project-private>
