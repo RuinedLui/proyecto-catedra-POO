@@ -27,8 +27,10 @@ public class BancoAcademico_UDB {
             System.out.println("No se pudo realizar la conexion a la base de datos");
         }
         
-        FrmPrincipal Principal = new FrmPrincipal();
-        Principal.setVisible(true);
+        java.awt.EventQueue.invokeLater(() -> {
+    FrmPrincipal principal = new FrmPrincipal();
+    principal.setVisible(true);
+});
     }
     
 }

@@ -15,10 +15,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal() {
-        initComponents();
-    }
-
+   public FrmPrincipal() {
+    initComponents();
+    crearMenu();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,4 +71,61 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+ private void crearMenu() {
+
+    getContentPane().removeAll();
+    setLayout(new java.awt.BorderLayout());
+
+    // Encabezado
+    javax.swing.JPanel encabezado = new javax.swing.JPanel();
+    encabezado.setBackground(new java.awt.Color(25, 55, 95));
+
+    javax.swing.JLabel titulo = new javax.swing.JLabel("BANCO ACADÉMICO UDB");
+    titulo.setForeground(java.awt.Color.WHITE);
+    titulo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 24));
+
+    encabezado.add(titulo);
+
+    // Menú lateral
+    javax.swing.JPanel menu = new javax.swing.JPanel();
+    menu.setBackground(new java.awt.Color(235, 240, 247));
+    menu.setLayout(new java.awt.GridLayout(4, 1, 10, 10));
+    menu.setPreferredSize(new java.awt.Dimension(200, 0));
+
+    javax.swing.JButton btnClientes = new javax.swing.JButton("Clientes");
+    javax.swing.JButton btnCuentas = new javax.swing.JButton("Cuentas");
+    javax.swing.JButton btnSalir = new javax.swing.JButton("Salir");
+
+    menu.add(btnClientes);
+    menu.add(btnCuentas);
+    menu.add(btnSalir);
+
+    // Área central
+    javax.swing.JPanel contenido = new javax.swing.JPanel();
+    contenido.setBackground(java.awt.Color.WHITE);
+
+    javax.swing.JLabel bienvenida = new javax.swing.JLabel(
+        "Bienvenido al Sistema Bancario Académico"
+    );
+    bienvenida.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 20));
+
+    contenido.add(bienvenida);
+
+    // Acciones de los botones
+    btnClientes.addActionListener(e -> new FrmClientes().setVisible(true));
+
+    btnCuentas.addActionListener(e -> new FrmCuentas().setVisible(true));
+
+    btnSalir.addActionListener(e -> System.exit(0));
+
+    // Agregar componentes a la ventana
+    add(encabezado, java.awt.BorderLayout.NORTH);
+    add(menu, java.awt.BorderLayout.WEST);
+    add(contenido, java.awt.BorderLayout.CENTER);
+
+    setTitle("Banco Académico UDB");
+    setSize(900, 600);
+    setLocationRelativeTo(null);
 }
+ }
+

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
+import Modelo.Cuenta;
 
 /**
  *
@@ -11,12 +12,19 @@ package Vista;
 public class FrmCuentas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmCuentas.class.getName());
+// DAO para gestionar las cuentas
+private Cuenta.CuentaDAO cuentaDAO = new Cuenta.CuentaDAO();
 
-    /**
-     * Creates new form FrmCuentas
-     */
+// Componentes del formulario
+private javax.swing.JTextField txtCodigoCliente;
+private javax.swing.JComboBox<String> cmbTipoCuenta;
+private javax.swing.JTextField txtSaldoInicial;
+private javax.swing.JComboBox<String> cmbEstado;
+private javax.swing.JTable tablaCuentas;
+private javax.swing.table.DefaultTableModel modeloTabla;
     public FrmCuentas() {
         initComponents();
+        crearFormulario();
     }
 
     /**
@@ -71,4 +79,265 @@ public class FrmCuentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+private void crearFormulario() {
+
+    // Configuración de la ventana
+    setTitle("Gestión de Cuentas - Banco Académico UDB");
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    setSize(850, 600);
+    setLocationRelativeTo(null);
+
+    getContentPane().removeAll();
+    getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
+
+    // Encabezado
+    javax.swing.JPanel encabezado = new javax.swing.JPanel();
+    encabezado.setBackground(new java.awt.Color(25, 55, 95));
+
+    javax.swing.JLabel titulo = new javax.swing.JLabel(
+            "GESTIÓN DE CUENTAS BANCARIAS"
+    );
+
+    titulo.setForeground(java.awt.Color.WHITE);
+    titulo.setFont(new java.awt.Font(
+            "Segoe UI", java.awt.Font.BOLD, 22
+    ));
+
+    encabezado.add(titulo);
+
+    // Formulario de datos
+    javax.swing.JPanel formulario = new javax.swing.JPanel(
+            new java.awt.GridLayout(4, 2, 10, 10)
+    );
+
+    formulario.setBorder(
+            javax.swing.BorderFactory.createTitledBorder("Datos de la cuenta")
+    );
+
+    txtCodigoCliente = new javax.swing.JTextField();
+
+    cmbTipoCuenta = new javax.swing.JComboBox<>(
+            new String[]{"Ahorro", "Corriente"}
+    );
+
+    txtSaldoInicial = new javax.swing.JTextField("0.00");
+
+    cmbEstado = new javax.swing.JComboBox<>(
+            new String[]{"Activa", "Inactiva", "Bloqueada"}
+    );
+
+    formulario.add(new javax.swing.JLabel("Código del cliente:"));
+    formulario.add(txtCodigoCliente);
+
+    formulario.add(new javax.swing.JLabel("Tipo de cuenta:"));
+    formulario.add(cmbTipoCuenta);
+
+    formulario.add(new javax.swing.JLabel("Saldo inicial:"));
+    formulario.add(txtSaldoInicial);
+
+    formulario.add(new javax.swing.JLabel("Estado:"));
+    formulario.add(cmbEstado);
+
+    // Botones
+    javax.swing.JPanel botones = new javax.swing.JPanel();
+
+    javax.swing.JButton btnRegistrar =
+            new javax.swing.JButton("Registrar cuenta");
+
+    javax.swing.JButton btnConsultar =
+            new javax.swing.JButton("Consultar cuentas");
+
+    javax.swing.JButton btnLimpiar =
+            new javax.swing.JButton("Limpiar");
+
+    botones.add(btnRegistrar);
+    botones.add(btnConsultar);
+    botones.add(btnLimpiar);
+    
+    btnRegistrar.addActionListener(e -> registrarCuenta());
+
+btnConsultar.addActionListener(e -> consultarCuentas());
+
+btnLimpiar.addActionListener(e -> limpiarCampos());
+
+    // Tabla de cuentas
+    modeloTabla = new javax.swing.table.DefaultTableModel(
+            new Object[]{
+                "Número de cuenta",
+                "Código cliente",
+                "Tipo de cuenta",
+                "Saldo",
+                "Estado"
+            }, 0
+    );
+
+    tablaCuentas = new javax.swing.JTable(modeloTabla);
+    tablaCuentas.setRowHeight(25);
+    tablaCuentas.setSelectionMode(
+            javax.swing.ListSelectionModel.SINGLE_SELECTION
+    );
+
+    javax.swing.JScrollPane scrollTabla =
+            new javax.swing.JScrollPane(tablaCuentas);
+
+    scrollTabla.setBorder(
+            javax.swing.BorderFactory.createTitledBorder(
+                    "Cuentas registradas"
+            )
+    );
+
+    // Panel central
+    javax.swing.JPanel contenido = new javax.swing.JPanel(
+            new java.awt.BorderLayout(10, 10)
+    );
+
+    contenido.setBorder(
+            javax.swing.BorderFactory.createEmptyBorder(10, 15, 15, 15)
+    );
+
+    contenido.add(formulario, java.awt.BorderLayout.NORTH);
+    contenido.add(scrollTabla, java.awt.BorderLayout.CENTER);
+    contenido.add(botones, java.awt.BorderLayout.SOUTH);
+
+    // Agregar componentes a la ventana
+    add(encabezado, java.awt.BorderLayout.NORTH);
+    add(contenido, java.awt.BorderLayout.CENTER);
+
+    revalidate();
+    repaint();
+ }
+
+private void registrarCuenta() {
+
+    try {
+        // Validar el código del cliente
+        String codigoTexto = txtCodigoCliente.getText().trim();
+
+        if (codigoTexto.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Ingrese el código del cliente."
+            );
+            return;
+        }
+
+        int codigoCliente = Integer.parseInt(codigoTexto);
+
+        if (codigoCliente <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "El código debe ser mayor que cero."
+            );
+            return;
+        }
+
+        // Validar el saldo
+        java.math.BigDecimal saldo =
+                new java.math.BigDecimal(txtSaldoInicial.getText().trim());
+
+        if (saldo.compareTo(java.math.BigDecimal.ZERO) < 0) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "El saldo no puede ser negativo."
+            );
+            return;
+        }
+
+        // Crear el objeto Cuenta
+        Cuenta cuenta = new Cuenta();
+
+        cuenta.setCodigoCliente(codigoCliente);
+        cuenta.setTipoCuenta(
+                cmbTipoCuenta.getSelectedItem().toString()
+        );
+        cuenta.setSaldo(saldo);
+        cuenta.setEstado(
+                cmbEstado.getSelectedItem().toString()
+        );
+
+        // Registrar mediante el DAO
+        boolean registrado = cuentaDAO.insertar(cuenta);
+
+        if (registrado) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "¡Cuenta registrada correctamente!"
+            );
+
+            consultarCuentas();
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "No se pudo registrar la cuenta. Verifique que el cliente exista."
+            );
+        }
+
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Verifique que el código y el saldo sean numéricos."
+        );
+    }
+}
+
+private void consultarCuentas() {
+
+    try {
+        String codigoTexto = txtCodigoCliente.getText().trim();
+
+        if (codigoTexto.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Ingrese el código del cliente que desea consultar."
+            );
+            return;
+        }
+
+        int codigoCliente = Integer.parseInt(codigoTexto);
+
+        if (codigoCliente <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Ingrese un código válido."
+            );
+            return;
+        }
+
+        // Limpiar la tabla antes de cargar los resultados
+        modeloTabla.setRowCount(0);
+
+        // Consultar utilizando CuentaDAO
+        java.util.List<Cuenta> cuentas =
+                cuentaDAO.obtenerCuentasPorCliente(codigoCliente);
+
+        for (Cuenta cuenta : cuentas) {
+            modeloTabla.addRow(new Object[]{
+                cuenta.getNumeroCuenta(),
+                cuenta.getCodigoCliente(),
+                cuenta.getTipoCuenta(),
+                cuenta.getSaldo(),
+                cuenta.getEstado()
+            });
+        }
+
+        if (cuentas.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Este cliente todavía no tiene cuentas registradas."
+            );
+        }
+
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "El código del cliente debe ser numérico."
+        );
+    }
+}
+
+private void limpiarCampos() {
+
+    txtCodigoCliente.setText("");
+    cmbTipoCuenta.setSelectedIndex(0);
+    txtSaldoInicial.setText("0.00");
+    cmbEstado.setSelectedIndex(0);
+
+    modeloTabla.setRowCount(0);
+
+    txtCodigoCliente.requestFocus();
+}
+
 }
