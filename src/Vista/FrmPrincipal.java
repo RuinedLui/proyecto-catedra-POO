@@ -89,15 +89,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Menú lateral
     javax.swing.JPanel menu = new javax.swing.JPanel();
     menu.setBackground(new java.awt.Color(235, 240, 247));
-    menu.setLayout(new java.awt.GridLayout(4, 1, 10, 10));
+    menu.setLayout(new java.awt.GridLayout(5, 1, 10, 10));
     menu.setPreferredSize(new java.awt.Dimension(200, 0));
 
     javax.swing.JButton btnClientes = new javax.swing.JButton("Clientes");
     javax.swing.JButton btnCuentas = new javax.swing.JButton("Cuentas");
+    javax.swing.JButton btnDepositos =
+        new javax.swing.JButton("Depósitos");
+    javax.swing.JButton btnReporte =
+        new javax.swing.JButton("Cuentas activas");
     javax.swing.JButton btnSalir = new javax.swing.JButton("Salir");
 
     menu.add(btnClientes);
     menu.add(btnCuentas);
+    menu.add(btnDepositos);
+    menu.add(btnReporte);
     menu.add(btnSalir);
 
     // Área central
@@ -115,8 +121,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     btnClientes.addActionListener(e -> new FrmClientes().setVisible(true));
 
     btnCuentas.addActionListener(e -> new FrmCuentas().setVisible(true));
+    btnReporte.addActionListener(e ->
+        new FrmReporteCuentasActivas().setVisible(true));
 
     btnSalir.addActionListener(e -> System.exit(0));
+    
+    btnDepositos.addActionListener(e ->
+        new FrmDepositos().setVisible(true));
 
     // Agregar componentes a la ventana
     add(encabezado, java.awt.BorderLayout.NORTH);
