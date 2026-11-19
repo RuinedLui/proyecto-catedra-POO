@@ -89,20 +89,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Menú lateral
     javax.swing.JPanel menu = new javax.swing.JPanel();
     menu.setBackground(new java.awt.Color(235, 240, 247));
-    menu.setLayout(new java.awt.GridLayout(5, 1, 10, 10));
+    menu.setLayout(new java.awt.GridLayout(7, 1, 10, 10));
     menu.setPreferredSize(new java.awt.Dimension(200, 0));
 
     javax.swing.JButton btnClientes = new javax.swing.JButton("Clientes");
     javax.swing.JButton btnCuentas = new javax.swing.JButton("Cuentas");
-    javax.swing.JButton btnDepositos =
-        new javax.swing.JButton("Depósitos");
-    javax.swing.JButton btnReporte =
-        new javax.swing.JButton("Cuentas activas");
+    javax.swing.JButton btnDepositos = new javax.swing.JButton("Depósitos");
+    javax.swing.JButton btnTransferencias = new javax.swing.JButton("Transferencias");
+    javax.swing.JButton btnReporte = new javax.swing.JButton("Cuentas activas");
+    javax.swing.JButton btnReportesMontos = new javax.swing.JButton("Reportes de montos");
     javax.swing.JButton btnSalir = new javax.swing.JButton("Salir");
 
     menu.add(btnClientes);
     menu.add(btnCuentas);
     menu.add(btnDepositos);
+    menu.add(btnTransferencias);
+    menu.add(btnReportesMontos);
     menu.add(btnReporte);
     menu.add(btnSalir);
 
@@ -119,15 +121,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Acciones de los botones
     btnClientes.addActionListener(e -> new FrmClientes().setVisible(true));
-
     btnCuentas.addActionListener(e -> new FrmCuentas().setVisible(true));
-    btnReporte.addActionListener(e ->
-        new FrmReporteCuentasActivas().setVisible(true));
-
+    btnReporte.addActionListener(e -> new FrmReporteCuentasActivas().setVisible(true));
+    btnTransferencias.addActionListener(e -> new FrmTransferencias().setVisible(true));
     btnSalir.addActionListener(e -> System.exit(0));
-    
-    btnDepositos.addActionListener(e ->
-        new FrmDepositos().setVisible(true));
+    btnReportesMontos.addActionListener(e -> new FrmReportesMontos().setVisible(true));
+    btnDepositos.addActionListener(e -> new FrmDepositos().setVisible(true));
 
     // Agregar componentes a la ventana
     add(encabezado, java.awt.BorderLayout.NORTH);
