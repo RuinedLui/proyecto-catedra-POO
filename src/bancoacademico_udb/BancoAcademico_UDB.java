@@ -5,7 +5,14 @@
 package bancoacademico_udb;
 
 import Conexion.ConexionDB;
+import Vista.FrmMovimientos;
 import Vista.FrmPrincipal;
+import Vista.FrmReporteClientes;
+import Vista.FrmReporteMovimientos;
+import Vista.FrmMovimientos;
+import Vista.FrmReporteClientes;
+import Vista.FrmReporteMovimientos;
+import Vista.FrmReporteMovimientosCuenta;
 import java.sql.Connection;
 
 /**
@@ -28,6 +35,7 @@ public class BancoAcademico_UDB {
         }
         
         java.awt.EventQueue.invokeLater(() -> {
+    
     FrmPrincipal principal = new FrmPrincipal();
     principal.setVisible(true);
 });

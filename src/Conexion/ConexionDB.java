@@ -10,8 +10,8 @@ public class ConexionDB {
     private static final String URL =
             "jdbc:mysql://localhost:3306/banco_academico_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 
-    private static final String USER = "root";
-    private static final String PASSWORD = "Toor1721";
+    private static final String USER = "banco_udb";
+    private static final String PASSWORD = "BancoUDB2026!";
 
     public static Connection conectar() {
 
